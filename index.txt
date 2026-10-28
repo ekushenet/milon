@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Titas Gas - Customer Approval</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: #f4f6f9;
+      color: #333;
+      padding: 20px;
+      font-size: 13px;
+    }
+
+    .page-container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: #fff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      padding: 25px 30px;
+    }
+
+    /* Manual Headers */
+    .section-title {
+      color: #7ba2c2;
+      font-size: 18px;
+      margin-bottom: 12px;
+      font-weight: normal;
+    }
+
+    .navigation-path {
+      font-size: 14px;
+      font-weight: bold;
+      color: #000;
+      margin-bottom: 20px;
+    }
+
+    /* UI Dashboard Frame */
+    .dashboard-frame {
+      border: 1px solid #d3d3d3;
+      background-color: #f9fbfd;
+      margin-bottom: 20px;
+    }
+
+    /* Top Navbar */
+    .navbar {
+      background-color: #38424d;
+      color: #ffffff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 15px;
+      height: 42px;
+      font-size: 12px;
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 15px;
+    }
+
+    .nav-links li {
+      cursor: pointer;
+      color: #d1d5db;
+    }
+
+    .nav-links li.active, .nav-links li:hover {
+      color: #ffffff;
+    }
+
+    .user-menu {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .search-icon {
+      background: #2b333c;
+      padding: 5px 8px;
+      border-radius: 2px;
+      cursor: pointer;
+    }
+
+    /* Dashboard Content Wrapper */
+    .dashboard-content {
+      padding: 20px 25px;
+      background-color: #ffffff;
+    }
+
+    /* Customer Subheader */
+    .customer-header {
+      color: #438eb9;
+      font-weight: bold;
+      font-size: 13px;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .customer-header span.date-time {
+      color: #888;
+      font-weight: normal;
+      font-size: 11px;
+    }
+
+    /* Tabs */
+    .nav-tabs {
+      display: flex;
+      border-bottom: 1px solid #e0e0e0;
+      margin-bottom: 20px;
+    }
+
+    .tab {
+      padding: 6px 16px;
+      cursor: pointer;
+      font-size: 12px;
+      color: #555;
+    }
+
+    .tab.active {
+      border-bottom: 2px solid #438eb9;
+      color: #438eb9;
+      font-weight: bold;
+    }
+
+    /* Form Sections */
+    .info-section-title {
+      color: #307ecc;
+      font-size: 12px;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-bottom: 1px solid #e2e2e2;
+      padding-bottom: 4px;
+      margin-top: 18px;
+      margin-bottom: 12px;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      column-gap: 40px;
+      row-gap: 8px;
+    }
+
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .info-label {
+      font-weight: bold;
+      color: #333;
+      width: 45%;
+    }
+
+    .info-value {
+      color: #555;
+      width: 55%;
+    }
+
+    .info-value.bangla-text {
+      font-family: 'Siyam Rupali', 'Kalpurush', sans-serif;
+    }
+
+    /* Highlight Box (Approval Remarks) */
+    .approval-box {
+      border: 2px solid #ff0000;
+      padding: 10px;
+      background-color: #fff;
+      font-size: 11px;
+      color: #555;
+      line-height: 1.6;
+      margin-top: 8px;
+    }
+
+    /* History Table */
+    .history-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      font-size: 12px;
+    }
+
+    .history-table th, .history-table td {
+      border: 1px solid #e0e0e0;
+      padding: 8px;
+      text-align: center;
+    }
+
+    .history-table th {
+      background-color: #f8f9fa;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .history-table td.no-data {
+      color: #777;
+      font-style: normal;
+    }
+
+    /* Action Button Container */
+    .action-container {
+      text-align: center;
+      margin-top: 20px;
+      margin-bottom: 10px;
+    }
+
+    .btn-approval {
+      background-color: #2e8ded;
+      color: #ffffff;
+      border: 2px solid #ff0000; /* Red box highlight as in manual */
+      padding: 6px 18px;
+      font-size: 12px;
+      border-radius: 3px;
+      cursor: pointer;
+      font-weight: 500;
+    }
+
+    /* Dashboard Footer */
+    .dashboard-footer {
+      background-color: #38424d;
+      color: #9ca3af;
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 15px;
+      font-size: 11px;
+    }
+
+    /* Manual Page Footer Note */
+    .manual-description {
+      font-size: 14px;
+      color: #333;
+      margin-top: 20px;
+    }
+
+    .manual-page-number {
+      text-align: center;
+      font-family: monospace;
+      font-size: 13px;
+      color: #000;
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="page-container">
+    
+    <!-- Section Heading -->
+    <div class="section-title"></div>
+    
+    <!-- Navigation Trail -->
+    <div class="navigation-path">
+      Navigation: Customer&rarr;Pending List&rarr;Old Customer&rarr;Posting&rarr;Approval Action
+    </div>
+
+    <!-- UI Mockup Frame -->
+    <div class="dashboard-frame">
+      
+      <!-- Top Navigation Bar -->
+      <div class="navbar">
+        <ul class="nav-links">
+          <li>Home</li>
+          <li>Applicants &rsaquo;</li>
+          <li class="active">Customers &rsaquo;</li>
+          <li>Bill Generation &rsaquo;</li>
+          <li>Payments &rsaquo;</li>
+          <li>System &rsaquo;</li>
+          <li>Reports &rsaquo;</li>
+        </ul>
+        <div class="user-menu">
+          <span>Administration &rsaquo;</span>
+          <span class="search-icon">&#128065;</span>
+        </div>
+      </div>
+
+      <!-- Main Content Area -->
+      <div class="dashboard-content">
+        
+        <div class="customer-header">
+          &#128712; CUSTOMER # 1380044291 
+          <span class="date-time">2016-05-24 11:40:15.034</span>
+        </div>
+
+        <div class="nav-tabs">
+          <div class="tab active">Overview</div>
+          <div class="tab">Appliance</div>
+        </div>
+
+        <!-- Customer Information -->
+        <div class="info-section-title">Customer Information</div>
+        <div class="info-grid">
+          <div>
+            <div class="info-row">
+              <span class="info-label">Customer Code:</span>
+              <span class="info-value">1380044291</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Ownership Name:</span>
+              <span class="info-value">Sree Sanjoy Gosh</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Cell Phone:</span>
+              <span class="info-value">01713584782</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Home Phone:</span>
+              <span class="info-value">01713584782</span>
+            </div>
+          </div>
+          <div>
+            <div class="info-row">
+              <span class="info-label">Ownership Name Bangla:</span>
+              <span class="info-value bangla-text">শ্রী সংঞ্জয় ঘোষ</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Email:</span>
+              <span class="info-value"></span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Office Phone:</span>
+              <span class="info-value"></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Connection Information -->
+        <div class="info-section-title">Connection Information</div>
+        <div class="info-grid">
+          <div>
+            <div class="info-row">
+              <span class="info-label">District:</span>
+              <span class="info-value">Dhaka</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Thana:</span>
+              <span class="info-value">SAVAR</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Connection Address:</span>
+              <span class="info-value">Ward No-6, Islam Nagar, Sen Walia, Ashulia</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Conn. Type:</span>
+              <span class="info-value">NON-METERED</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Commission Date:</span>
+              <span class="info-value">01-09-2015</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Number Of Kitchen:</span>
+              <span class="info-value">8 (DOUBLE)</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Remarks:</span>
+              <span class="info-value"></span>
+            </div>
+          </div>
+          <div>
+            <div class="info-row">
+              <span class="info-label">Status:</span>
+              <span class="info-value">ACTIVE</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Ownership Type:</span>
+              <span class="info-value">GOVERNMENT</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Billing Information -->
+        <div class="info-section-title">Billing Information</div>
+        <div class="info-grid">
+          <div>
+            <div class="info-row">
+              <span class="info-label">Billing Address:</span>
+              <span class="info-value">Ward No-6, Islam Nagar, Sen Walia, Ashulia</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Opening Balance:</span>
+              <span class="info-value">0</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Security Deposit:</span>
+              <span class="info-value">0</span>
+            </div>
+          </div>
+          <div>
+            <div class="info-row">
+              <span class="info-label">Date:</span>
+              <span class="info-value">01-01-2016</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Date:</span>
+              <span class="info-value"></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Administrative Details -->
+        <div class="info-section-title">Administrative Details</div>
+        <div class="info-grid">
+          <div>
+            <div class="info-row">
+              <span class="info-label">Zone:</span>
+              <span class="info-value">ZONE-1</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Area:</span>
+              <span class="info-value">AREA 89</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Route:</span>
+              <span class="info-value">OTHER</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Sector:</span>
+              <span class="info-value">GOVERNMENT</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Property:</span>
+              <span class="info-value"></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Documents -->
+        <div class="info-section-title">Documents</div>
+
+        <!-- Approval Note / Remarks -->
+        <div class="info-section-title">Approval Note/Remarks</div>
+        <div class="approval-box">
+          All documents are legit. - by TBS-1 on 24-05-2016 11:32:46<br />
+          All documents are in order. - by TBS-1 on 24-05-2016 11:40:15
+        </div>
+
+  
+
+        <!-- Approval Action Button -->
+        <div class="action-container">
+          <button class="btn-approval">Pending Approval</button>
+        </div>
+
+
+      <!-- Footer Bar -->
+      <div class="dashboard-footer">
+        <span>Copyright &copy; 2015 TGTDCL</span>
+        <span>Powered by: Divine IT Limited &amp; Right Brain Solution Limited</span>
+      </div>
+
+    </div>
+
+
+  </div>
+
+</body>
+</html>
